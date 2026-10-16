@@ -1,0 +1,8 @@
+# Tema del dashboard (colores del proyecto). Streamlit lee este archivo solo.
+[theme]
+base = "light"
+primaryColor = "#B8321F"
+backgroundColor = "#F1EEE6"
+secondaryBackgroundColor = "#ECE7DB"
+textColor = "#16150F"
+font = "monospace"

@@ -1,0 +1,2223 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_d533f3c66430b30dfde260f30720d558 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+</head>
+<body>
+    
+    
+<div style="position: fixed; bottom: 30px; left: 30px; z-index: 9999; background: white;
+            padding: 10px 14px; border: 1px solid #999; border-radius: 6px; font-size: 13px;">
+<b>Grupos de parroquias (clustering)</b><br>
+<span style="color:red;">&#9679;</span> Pocos siniestros, alta letalidad<br>
+<span style="color:orange;">&#9679;</span> Muchos siniestros<br>
+<span style="color:blue;">&#9679;</span> Riesgo típico<br>
+<span style="color:gray;">&#9679;</span> Sin cluster (menos de 30 siniestros)<br>
+<i>Tamaño del círculo = número de siniestros</i>
+</div>
+    
+            <div class="folium-map" id="map_d533f3c66430b30dfde260f30720d558" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_d533f3c66430b30dfde260f30720d558 = L.map(
+                "map_d533f3c66430b30dfde260f30720d558",
+                {
+                    center: [-0.2, -78.49],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 11,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_227a7d2c4bb0f729ccbea6908e48e8d6 = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_227a7d2c4bb0f729ccbea6908e48e8d6.addTo(map_d533f3c66430b30dfde260f30720d558);
+        
+    
+            var circle_marker_879f5e5e4f62309e374649e384e5256e = L.circleMarker(
+                [-0.29787573829712927, -78.44083956501488],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "blue", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(map_d533f3c66430b30dfde260f30720d558);
+        
+    
+        var popup_c8c460b873ac4bc8c51329e51ef4b6db = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_36ed277906841a7463dae0deaee86ed1 = $(`<div id="html_36ed277906841a7463dae0deaee86ed1" style="width: 100.0%; height: 100.0%;">     <b>Parroquia:</b> Alangasi<br>     <b>Grupo:</b> Riesgo típico<br>     <b>Siniestros:</b> 89<br>     <b>Fallecidos:</b> 6<br>     <b>Lesionados:</b> 61<br>     <b>Letalidad:</b> 6.74 fallecidos por cada 100 siniestros     </div>`)[0];
+                popup_c8c460b873ac4bc8c51329e51ef4b6db.setContent(html_36ed277906841a7463dae0deaee86ed1);
+            
+        
+
+        circle_marker_879f5e5e4f62309e374649e384e5256e.bindPopup(popup_c8c460b873ac4bc8c51329e51ef4b6db)
+        ;
+
+        
+    
+    
+            circle_marker_879f5e5e4f62309e374649e384e5256e.bindTooltip(
+                `<div>
+                     Alangasi
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_86cb823dae356acea1895b67b93a1441 = L.circleMarker(
+                [-0.3616297691250601, -78.49393555469227],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(map_d533f3c66430b30dfde260f30720d558);
+        
+    
+        var popup_0176324af1860c7ede9378977d0421a1 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_5598dc6abf72c59f898421bf651a3f08 = $(`<div id="html_5598dc6abf72c59f898421bf651a3f08" style="width: 100.0%; height: 100.0%;">     <b>Parroquia:</b> Amaguaña<br>     <b>Grupo:</b> Pocos siniestros, alta letalidad<br>     <b>Siniestros:</b> 111<br>     <b>Fallecidos:</b> 18<br>     <b>Lesionados:</b> 71<br>     <b>Letalidad:</b> 16.22 fallecidos por cada 100 siniestros     </div>`)[0];
+                popup_0176324af1860c7ede9378977d0421a1.setContent(html_5598dc6abf72c59f898421bf651a3f08);
+            
+        
+
+        circle_marker_86cb823dae356acea1895b67b93a1441.bindPopup(popup_0176324af1860c7ede9378977d0421a1)
+        ;
+
+        
+    
+    
+            circle_marker_86cb823dae356acea1895b67b93a1441.bindTooltip(
+                `<div>
+                     Amaguaña
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_e700f9858112cca772aa2c962db0c6b7 = L.circleMarker(
+                [-0.1926354608433735, -78.50247945210843],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "blue", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 14.647058823529411, "stroke": true, "weight": 3}
+            ).addTo(map_d533f3c66430b30dfde260f30720d558);
+        
+    
+        var popup_274bbccf9e127d0cef0674e6e54a7611 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_f1149b5db352ebff7b6c4484f931300b = $(`<div id="html_f1149b5db352ebff7b6c4484f931300b" style="width: 100.0%; height: 100.0%;">     <b>Parroquia:</b> Belisario Quevedo<br>     <b>Grupo:</b> Riesgo típico<br>     <b>Siniestros:</b> 332<br>     <b>Fallecidos:</b> 20<br>     <b>Lesionados:</b> 170<br>     <b>Letalidad:</b> 6.02 fallecidos por cada 100 siniestros     </div>`)[0];
+                popup_274bbccf9e127d0cef0674e6e54a7611.setContent(html_f1149b5db352ebff7b6c4484f931300b);
+            
+        
+
+        circle_marker_e700f9858112cca772aa2c962db0c6b7.bindPopup(popup_274bbccf9e127d0cef0674e6e54a7611)
+        ;
+
+        
+    
+    
+            circle_marker_e700f9858112cca772aa2c962db0c6b7.bindTooltip(
+                `<div>
+                     Belisario Quevedo
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_890053a961a2540f96ebe1d7f770aaf7 = L.circleMarker(
+                [0.01472776472439073, -78.51568586919926],
+                {"bubblingMouseEvents": true, "color": "gray", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "gray", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(map_d533f3c66430b30dfde260f30720d558);
+        
+    
+        var popup_90374efe982cf2dcd8470fa9d28e1d63 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_df580499b7da9e93db720791c5eaf8db = $(`<div id="html_df580499b7da9e93db720791c5eaf8db" style="width: 100.0%; height: 100.0%;">     <b>Parroquia:</b> Calacali<br>     <b>Grupo:</b> Sin cluster (menos de 30 siniestros)<br>     <b>Siniestros:</b> 27<br>     <b>Fallecidos:</b> 9<br>     <b>Lesionados:</b> 25<br>     <b>Letalidad:</b> 33.33 fallecidos por cada 100 siniestros     </div>`)[0];
+                popup_90374efe982cf2dcd8470fa9d28e1d63.setContent(html_df580499b7da9e93db720791c5eaf8db);
+            
+        
+
+        circle_marker_890053a961a2540f96ebe1d7f770aaf7.bindPopup(popup_90374efe982cf2dcd8470fa9d28e1d63)
+        ;
+
+        
+    
+    
+            circle_marker_890053a961a2540f96ebe1d7f770aaf7.bindTooltip(
+                `<div>
+                     Calacali
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_a9a38eb9e861be75ced58b94573ff386 = L.circleMarker(
+                [-0.09573514935600672, -78.4354496143083],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 23.558823529411764, "stroke": true, "weight": 3}
+            ).addTo(map_d533f3c66430b30dfde260f30720d558);
+        
+    
+        var popup_109c9eabe6357fe6ee5ad8fb2b1e7a83 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_c64f8a62f6c03345744e6d7ca66d4856 = $(`<div id="html_c64f8a62f6c03345744e6d7ca66d4856" style="width: 100.0%; height: 100.0%;">     <b>Parroquia:</b> Calderon<br>     <b>Grupo:</b> Muchos siniestros<br>     <b>Siniestros:</b> 534<br>     <b>Fallecidos:</b> 62<br>     <b>Lesionados:</b> 362<br>     <b>Letalidad:</b> 11.61 fallecidos por cada 100 siniestros     </div>`)[0];
+                popup_109c9eabe6357fe6ee5ad8fb2b1e7a83.setContent(html_c64f8a62f6c03345744e6d7ca66d4856);
+            
+        
+
+        circle_marker_a9a38eb9e861be75ced58b94573ff386.bindPopup(popup_109c9eabe6357fe6ee5ad8fb2b1e7a83)
+        ;
+
+        
+    
+    
+            circle_marker_a9a38eb9e861be75ced58b94573ff386.bindTooltip(
+                `<div>
+                     Calderon
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_116945cc554f4a6f5fb4b2fbfd91dd2b = L.circleMarker(
+                [-0.09183914130985658, -78.47012787518712],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "blue", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6.352941176470588, "stroke": true, "weight": 3}
+            ).addTo(map_d533f3c66430b30dfde260f30720d558);
+        
+    
+        var popup_5621ccad28932e2fa2db3044efc9919d = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_84d7c3ebef4de0093c0ab46f0ca41105 = $(`<div id="html_84d7c3ebef4de0093c0ab46f0ca41105" style="width: 100.0%; height: 100.0%;">     <b>Parroquia:</b> Carcelen<br>     <b>Grupo:</b> Riesgo típico<br>     <b>Siniestros:</b> 144<br>     <b>Fallecidos:</b> 19<br>     <b>Lesionados:</b> 83<br>     <b>Letalidad:</b> 13.19 fallecidos por cada 100 siniestros     </div>`)[0];
+                popup_5621ccad28932e2fa2db3044efc9919d.setContent(html_84d7c3ebef4de0093c0ab46f0ca41105);
+            
+        
+
+        circle_marker_116945cc554f4a6f5fb4b2fbfd91dd2b.bindPopup(popup_5621ccad28932e2fa2db3044efc9919d)
+        ;
+
+        
+    
+    
+            circle_marker_116945cc554f4a6f5fb4b2fbfd91dd2b.bindTooltip(
+                `<div>
+                     Carcelen
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_ce65ca360bcd99750ecf841bd6ee83bf = L.circleMarker(
+                [-0.22459055384615384, -78.5133698508547],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "blue", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10.323529411764707, "stroke": true, "weight": 3}
+            ).addTo(map_d533f3c66430b30dfde260f30720d558);
+        
+    
+        var popup_998b98af47ee1d9df8e0809f106c9dca = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_c7ef4e68c65862ad98e03b6df6866316 = $(`<div id="html_c7ef4e68c65862ad98e03b6df6866316" style="width: 100.0%; height: 100.0%;">     <b>Parroquia:</b> Centro Historico<br>     <b>Grupo:</b> Riesgo típico<br>     <b>Siniestros:</b> 234<br>     <b>Fallecidos:</b> 15<br>     <b>Lesionados:</b> 139<br>     <b>Letalidad:</b> 6.41 fallecidos por cada 100 siniestros     </div>`)[0];
+                popup_998b98af47ee1d9df8e0809f106c9dca.setContent(html_c7ef4e68c65862ad98e03b6df6866316);
+            
+        
+
+        circle_marker_ce65ca360bcd99750ecf841bd6ee83bf.bindPopup(popup_998b98af47ee1d9df8e0809f106c9dca)
+        ;
+
+        
+    
+    
+            circle_marker_ce65ca360bcd99750ecf841bd6ee83bf.bindTooltip(
+                `<div>
+                     Centro Historico
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_7015efc276bb481f88d181d318a06497 = L.circleMarker(
+                [0.1200807, -78.416644],
+                {"bubblingMouseEvents": true, "color": "gray", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "gray", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(map_d533f3c66430b30dfde260f30720d558);
+        
+    
+        var popup_9a2a81e9120dc71f1f8ececfd98e8de9 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_3844544bc1a2d39098fed5b3c11e60dc = $(`<div id="html_3844544bc1a2d39098fed5b3c11e60dc" style="width: 100.0%; height: 100.0%;">     <b>Parroquia:</b> Chavezpamba<br>     <b>Grupo:</b> Sin cluster (menos de 30 siniestros)<br>     <b>Siniestros:</b> 1<br>     <b>Fallecidos:</b> 1<br>     <b>Lesionados:</b> 0<br>     <b>Letalidad:</b> 100.00 fallecidos por cada 100 siniestros     </div>`)[0];
+                popup_9a2a81e9120dc71f1f8ececfd98e8de9.setContent(html_3844544bc1a2d39098fed5b3c11e60dc);
+            
+        
+
+        circle_marker_7015efc276bb481f88d181d318a06497.bindPopup(popup_9a2a81e9120dc71f1f8ececfd98e8de9)
+        ;
+
+        
+    
+    
+            circle_marker_7015efc276bb481f88d181d318a06497.bindTooltip(
+                `<div>
+                     Chavezpamba
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_1742a472c006d6181ac5a5f4f4166d5d = L.circleMarker(
+                [-0.13553509135182254, -78.31195510970448],
+                {"bubblingMouseEvents": true, "color": "gray", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "gray", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(map_d533f3c66430b30dfde260f30720d558);
+        
+    
+        var popup_d17c2003c77c3434970f15d35c0fe8bb = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_ee0ba4fd56563cb2087ada0964ebeac4 = $(`<div id="html_ee0ba4fd56563cb2087ada0964ebeac4" style="width: 100.0%; height: 100.0%;">     <b>Parroquia:</b> Checa<br>     <b>Grupo:</b> Sin cluster (menos de 30 siniestros)<br>     <b>Siniestros:</b> 16<br>     <b>Fallecidos:</b> 8<br>     <b>Lesionados:</b> 16<br>     <b>Letalidad:</b> 50.00 fallecidos por cada 100 siniestros     </div>`)[0];
+                popup_d17c2003c77c3434970f15d35c0fe8bb.setContent(html_ee0ba4fd56563cb2087ada0964ebeac4);
+            
+        
+
+        circle_marker_1742a472c006d6181ac5a5f4f4166d5d.bindPopup(popup_d17c2003c77c3434970f15d35c0fe8bb)
+        ;
+
+        
+    
+    
+            circle_marker_1742a472c006d6181ac5a5f4f4166d5d.bindTooltip(
+                `<div>
+                     Checa
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_dc42001b34f56b3d278e423e0a41c158 = L.circleMarker(
+                [-0.2432631363636364, -78.53534393515152],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "blue", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7.279411764705882, "stroke": true, "weight": 3}
+            ).addTo(map_d533f3c66430b30dfde260f30720d558);
+        
+    
+        var popup_1d044c93e55e90e116b590ba522afe31 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_33eea96114c8bbe496ceb2d07f78d90f = $(`<div id="html_33eea96114c8bbe496ceb2d07f78d90f" style="width: 100.0%; height: 100.0%;">     <b>Parroquia:</b> Chilibulo<br>     <b>Grupo:</b> Riesgo típico<br>     <b>Siniestros:</b> 165<br>     <b>Fallecidos:</b> 13<br>     <b>Lesionados:</b> 106<br>     <b>Letalidad:</b> 7.88 fallecidos por cada 100 siniestros     </div>`)[0];
+                popup_1d044c93e55e90e116b590ba522afe31.setContent(html_33eea96114c8bbe496ceb2d07f78d90f);
+            
+        
+
+        circle_marker_dc42001b34f56b3d278e423e0a41c158.bindPopup(popup_1d044c93e55e90e116b590ba522afe31)
+        ;
+
+        
+    
+    
+            circle_marker_dc42001b34f56b3d278e423e0a41c158.bindTooltip(
+                `<div>
+                     Chilibulo
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_e27b39cc0e5d27e72f0afa63e81001d5 = L.circleMarker(
+                [-0.2814374705263158, -78.56093524842106],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "blue", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8.382352941176471, "stroke": true, "weight": 3}
+            ).addTo(map_d533f3c66430b30dfde260f30720d558);
+        
+    
+        var popup_b2b9741e89be9ca946f33874deab20f2 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_f1cc65b9d7005e50c302e815331495c0 = $(`<div id="html_f1cc65b9d7005e50c302e815331495c0" style="width: 100.0%; height: 100.0%;">     <b>Parroquia:</b> Chillogallo<br>     <b>Grupo:</b> Riesgo típico<br>     <b>Siniestros:</b> 190<br>     <b>Fallecidos:</b> 13<br>     <b>Lesionados:</b> 127<br>     <b>Letalidad:</b> 6.84 fallecidos por cada 100 siniestros     </div>`)[0];
+                popup_b2b9741e89be9ca946f33874deab20f2.setContent(html_f1cc65b9d7005e50c302e815331495c0);
+            
+        
+
+        circle_marker_e27b39cc0e5d27e72f0afa63e81001d5.bindPopup(popup_b2b9741e89be9ca946f33874deab20f2)
+        ;
+
+        
+    
+    
+            circle_marker_e27b39cc0e5d27e72f0afa63e81001d5.bindTooltip(
+                `<div>
+                     Chillogallo
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_5aa3a0f2e92637a0085e6dd350d6a8ab = L.circleMarker(
+                [-0.24470350063694268, -78.51460061974522],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "blue", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6.926470588235294, "stroke": true, "weight": 3}
+            ).addTo(map_d533f3c66430b30dfde260f30720d558);
+        
+    
+        var popup_a21cd71986832611aa4f795dfcabc69d = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_c328ef62f9123502f6a0be74bd100e35 = $(`<div id="html_c328ef62f9123502f6a0be74bd100e35" style="width: 100.0%; height: 100.0%;">     <b>Parroquia:</b> Chimbacalle<br>     <b>Grupo:</b> Riesgo típico<br>     <b>Siniestros:</b> 157<br>     <b>Fallecidos:</b> 10<br>     <b>Lesionados:</b> 90<br>     <b>Letalidad:</b> 6.37 fallecidos por cada 100 siniestros     </div>`)[0];
+                popup_a21cd71986832611aa4f795dfcabc69d.setContent(html_c328ef62f9123502f6a0be74bd100e35);
+            
+        
+
+        circle_marker_5aa3a0f2e92637a0085e6dd350d6a8ab.bindPopup(popup_a21cd71986832611aa4f795dfcabc69d)
+        ;
+
+        
+    
+    
+            circle_marker_5aa3a0f2e92637a0085e6dd350d6a8ab.bindTooltip(
+                `<div>
+                     Chimbacalle
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_d26786badba4d900ddc9415a6b397b41 = L.circleMarker(
+                [-0.13855378648648647, -78.50632212882884],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "blue", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(map_d533f3c66430b30dfde260f30720d558);
+        
+    
+        var popup_d0dc64cc7bc3850c58436098752092f2 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_86eaaf762722984d62e2d692d5b48ef0 = $(`<div id="html_86eaaf762722984d62e2d692d5b48ef0" style="width: 100.0%; height: 100.0%;">     <b>Parroquia:</b> Cochapamba<br>     <b>Grupo:</b> Riesgo típico<br>     <b>Siniestros:</b> 111<br>     <b>Fallecidos:</b> 11<br>     <b>Lesionados:</b> 66<br>     <b>Letalidad:</b> 9.91 fallecidos por cada 100 siniestros     </div>`)[0];
+                popup_d0dc64cc7bc3850c58436098752092f2.setContent(html_86eaaf762722984d62e2d692d5b48ef0);
+            
+        
+
+        circle_marker_d26786badba4d900ddc9415a6b397b41.bindPopup(popup_d0dc64cc7bc3850c58436098752092f2)
+        ;
+
+        
+    
+    
+            circle_marker_d26786badba4d900ddc9415a6b397b41.bindTooltip(
+                `<div>
+                     Cochapamba
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_ae194fb278f2bf0e46d3750aa20e18ca = L.circleMarker(
+                [-0.11207768888888887, -78.46944789375],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "blue", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6.352941176470588, "stroke": true, "weight": 3}
+            ).addTo(map_d533f3c66430b30dfde260f30720d558);
+        
+    
+        var popup_c13c4ef6c26fcb7603e7d7686aedd9a3 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_f1ce0c8007e023979534b26087428dbf = $(`<div id="html_f1ce0c8007e023979534b26087428dbf" style="width: 100.0%; height: 100.0%;">     <b>Parroquia:</b> Comite Del Pueblo<br>     <b>Grupo:</b> Riesgo típico<br>     <b>Siniestros:</b> 144<br>     <b>Fallecidos:</b> 11<br>     <b>Lesionados:</b> 86<br>     <b>Letalidad:</b> 7.64 fallecidos por cada 100 siniestros     </div>`)[0];
+                popup_c13c4ef6c26fcb7603e7d7686aedd9a3.setContent(html_f1ce0c8007e023979534b26087428dbf);
+            
+        
+
+        circle_marker_ae194fb278f2bf0e46d3750aa20e18ca.bindPopup(popup_c13c4ef6c26fcb7603e7d7686aedd9a3)
+        ;
+
+        
+    
+    
+            circle_marker_ae194fb278f2bf0e46d3750aa20e18ca.bindTooltip(
+                `<div>
+                     Comite Del Pueblo
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_472adc3bb2999c667d9b234bd1d19ddd = L.circleMarker(
+                [-0.28037062357513565, -78.48175947867904],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "blue", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 15.661764705882353, "stroke": true, "weight": 3}
+            ).addTo(map_d533f3c66430b30dfde260f30720d558);
+        
+    
+        var popup_a0cd172bbbd1ec75c267e0b40d242bbb = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_ec927e5237871958e9a27eafc26c25ba = $(`<div id="html_ec927e5237871958e9a27eafc26c25ba" style="width: 100.0%; height: 100.0%;">     <b>Parroquia:</b> Conocoto<br>     <b>Grupo:</b> Riesgo típico<br>     <b>Siniestros:</b> 355<br>     <b>Fallecidos:</b> 28<br>     <b>Lesionados:</b> 224<br>     <b>Letalidad:</b> 7.89 fallecidos por cada 100 siniestros     </div>`)[0];
+                popup_a0cd172bbbd1ec75c267e0b40d242bbb.setContent(html_ec927e5237871958e9a27eafc26c25ba);
+            
+        
+
+        circle_marker_472adc3bb2999c667d9b234bd1d19ddd.bindPopup(popup_a0cd172bbbd1ec75c267e0b40d242bbb)
+        ;
+
+        
+    
+    
+            circle_marker_472adc3bb2999c667d9b234bd1d19ddd.bindTooltip(
+                `<div>
+                     Conocoto
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_7ce7c2ad89d92e26048253e30bf98792 = L.circleMarker(
+                [-0.11669301755725191, -78.4989816480916],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "blue", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5.779411764705882, "stroke": true, "weight": 3}
+            ).addTo(map_d533f3c66430b30dfde260f30720d558);
+        
+    
+        var popup_2ca0c6ec5bc416b5d8edd69a606a0354 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_39e39fbda0e21819e64112afd7babbeb = $(`<div id="html_39e39fbda0e21819e64112afd7babbeb" style="width: 100.0%; height: 100.0%;">     <b>Parroquia:</b> Cotocollao<br>     <b>Grupo:</b> Riesgo típico<br>     <b>Siniestros:</b> 131<br>     <b>Fallecidos:</b> 10<br>     <b>Lesionados:</b> 88<br>     <b>Letalidad:</b> 7.63 fallecidos por cada 100 siniestros     </div>`)[0];
+                popup_2ca0c6ec5bc416b5d8edd69a606a0354.setContent(html_39e39fbda0e21819e64112afd7babbeb);
+            
+        
+
+        circle_marker_7ce7c2ad89d92e26048253e30bf98792.bindPopup(popup_2ca0c6ec5bc416b5d8edd69a606a0354)
+        ;
+
+        
+    
+    
+            circle_marker_7ce7c2ad89d92e26048253e30bf98792.bindTooltip(
+                `<div>
+                     Cotocollao
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_9fe460dc7fd1fc3fbd80594e212e9940 = L.circleMarker(
+                [-0.211092621299639, -78.44350060794223],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "blue", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 12.220588235294118, "stroke": true, "weight": 3}
+            ).addTo(map_d533f3c66430b30dfde260f30720d558);
+        
+    
+        var popup_92be57a5326cec69c15b521ed9b2985c = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_43d985ec1f77031fe9205d78dd9db2ea = $(`<div id="html_43d985ec1f77031fe9205d78dd9db2ea" style="width: 100.0%; height: 100.0%;">     <b>Parroquia:</b> Cumbaya<br>     <b>Grupo:</b> Riesgo típico<br>     <b>Siniestros:</b> 277<br>     <b>Fallecidos:</b> 17<br>     <b>Lesionados:</b> 152<br>     <b>Letalidad:</b> 6.14 fallecidos por cada 100 siniestros     </div>`)[0];
+                popup_92be57a5326cec69c15b521ed9b2985c.setContent(html_43d985ec1f77031fe9205d78dd9db2ea);
+            
+        
+
+        circle_marker_9fe460dc7fd1fc3fbd80594e212e9940.bindPopup(popup_92be57a5326cec69c15b521ed9b2985c)
+        ;
+
+        
+    
+    
+            circle_marker_9fe460dc7fd1fc3fbd80594e212e9940.bindTooltip(
+                `<div>
+                     Cumbaya
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_e387937bcb10c2855b2bbab8399f25e2 = L.circleMarker(
+                [-0.10175198093511019, -78.50906231869222],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "blue", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6.970588235294118, "stroke": true, "weight": 3}
+            ).addTo(map_d533f3c66430b30dfde260f30720d558);
+        
+    
+        var popup_8a87cb822c6abe32bae2152a809d1531 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_f35946c917d26176498bfcb60641056a = $(`<div id="html_f35946c917d26176498bfcb60641056a" style="width: 100.0%; height: 100.0%;">     <b>Parroquia:</b> El Condado<br>     <b>Grupo:</b> Riesgo típico<br>     <b>Siniestros:</b> 158<br>     <b>Fallecidos:</b> 16<br>     <b>Lesionados:</b> 101<br>     <b>Letalidad:</b> 10.13 fallecidos por cada 100 siniestros     </div>`)[0];
+                popup_8a87cb822c6abe32bae2152a809d1531.setContent(html_f35946c917d26176498bfcb60641056a);
+            
+        
+
+        circle_marker_e387937bcb10c2855b2bbab8399f25e2.bindPopup(popup_8a87cb822c6abe32bae2152a809d1531)
+        ;
+
+        
+    
+    
+            circle_marker_e387937bcb10c2855b2bbab8399f25e2.bindTooltip(
+                `<div>
+                     El Condado
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_d74ebc4e56fcddcdf1c371ec0fca3676 = L.circleMarker(
+                [-0.11006114875118975, -78.29978606915681],
+                {"bubblingMouseEvents": true, "color": "gray", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "gray", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(map_d533f3c66430b30dfde260f30720d558);
+        
+    
+        var popup_97f75fbadfa7e7dcdd786d6e4bed366f = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_d7a2176e6e974287928f7d962621498b = $(`<div id="html_d7a2176e6e974287928f7d962621498b" style="width: 100.0%; height: 100.0%;">     <b>Parroquia:</b> El Quinche<br>     <b>Grupo:</b> Sin cluster (menos de 30 siniestros)<br>     <b>Siniestros:</b> 28<br>     <b>Fallecidos:</b> 4<br>     <b>Lesionados:</b> 22<br>     <b>Letalidad:</b> 14.29 fallecidos por cada 100 siniestros     </div>`)[0];
+                popup_97f75fbadfa7e7dcdd786d6e4bed366f.setContent(html_d7a2176e6e974287928f7d962621498b);
+            
+        
+
+        circle_marker_d74ebc4e56fcddcdf1c371ec0fca3676.bindPopup(popup_97f75fbadfa7e7dcdd786d6e4bed366f)
+        ;
+
+        
+    
+    
+            circle_marker_d74ebc4e56fcddcdf1c371ec0fca3676.bindTooltip(
+                `<div>
+                     El Quinche
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_23247cf9651b064c61eb6c16a3764dae = L.circleMarker(
+                [0.1036619, -78.7446458],
+                {"bubblingMouseEvents": true, "color": "gray", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "gray", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(map_d533f3c66430b30dfde260f30720d558);
+        
+    
+        var popup_9c19ee2de91da397c108060814d3a91b = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_a9e53c643894846c6e643f2ca1151946 = $(`<div id="html_a9e53c643894846c6e643f2ca1151946" style="width: 100.0%; height: 100.0%;">     <b>Parroquia:</b> Gualea<br>     <b>Grupo:</b> Sin cluster (menos de 30 siniestros)<br>     <b>Siniestros:</b> 2<br>     <b>Fallecidos:</b> 1<br>     <b>Lesionados:</b> 1<br>     <b>Letalidad:</b> 50.00 fallecidos por cada 100 siniestros     </div>`)[0];
+                popup_9c19ee2de91da397c108060814d3a91b.setContent(html_a9e53c643894846c6e643f2ca1151946);
+            
+        
+
+        circle_marker_23247cf9651b064c61eb6c16a3764dae.bindPopup(popup_9c19ee2de91da397c108060814d3a91b)
+        ;
+
+        
+    
+    
+            circle_marker_23247cf9651b064c61eb6c16a3764dae.bindTooltip(
+                `<div>
+                     Gualea
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_0fef317c72d13444b301b18b0d64eb19 = L.circleMarker(
+                [-0.32978031020408166, -78.55542776530612],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "blue", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10.808823529411764, "stroke": true, "weight": 3}
+            ).addTo(map_d533f3c66430b30dfde260f30720d558);
+        
+    
+        var popup_2173270cbe906323d8bdd25d17ee6d09 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_fbfb0da0af328c967964d03daa025452 = $(`<div id="html_fbfb0da0af328c967964d03daa025452" style="width: 100.0%; height: 100.0%;">     <b>Parroquia:</b> Guamani<br>     <b>Grupo:</b> Riesgo típico<br>     <b>Siniestros:</b> 245<br>     <b>Fallecidos:</b> 15<br>     <b>Lesionados:</b> 165<br>     <b>Letalidad:</b> 6.12 fallecidos por cada 100 siniestros     </div>`)[0];
+                popup_2173270cbe906323d8bdd25d17ee6d09.setContent(html_fbfb0da0af328c967964d03daa025452);
+            
+        
+
+        circle_marker_0fef317c72d13444b301b18b0d64eb19.bindPopup(popup_2173270cbe906323d8bdd25d17ee6d09)
+        ;
+
+        
+    
+    
+            circle_marker_0fef317c72d13444b301b18b0d64eb19.bindTooltip(
+                `<div>
+                     Guamani
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_89be56edf5f93d8e5dd3f5dffe168d75 = L.circleMarker(
+                [-0.2543209547953344, -78.44667516741521],
+                {"bubblingMouseEvents": true, "color": "gray", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "gray", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(map_d533f3c66430b30dfde260f30720d558);
+        
+    
+        var popup_5f8b46259c4a2f44f875001d49a66118 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_14f85691b1233e34d8aa98014bd45244 = $(`<div id="html_14f85691b1233e34d8aa98014bd45244" style="width: 100.0%; height: 100.0%;">     <b>Parroquia:</b> Guangopolo<br>     <b>Grupo:</b> Sin cluster (menos de 30 siniestros)<br>     <b>Siniestros:</b> 10<br>     <b>Fallecidos:</b> 2<br>     <b>Lesionados:</b> 4<br>     <b>Letalidad:</b> 20.00 fallecidos por cada 100 siniestros     </div>`)[0];
+                popup_5f8b46259c4a2f44f875001d49a66118.setContent(html_14f85691b1233e34d8aa98014bd45244);
+            
+        
+
+        circle_marker_89be56edf5f93d8e5dd3f5dffe168d75.bindPopup(popup_5f8b46259c4a2f44f875001d49a66118)
+        ;
+
+        
+    
+    
+            circle_marker_89be56edf5f93d8e5dd3f5dffe168d75.bindTooltip(
+                `<div>
+                     Guangopolo
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_552cfab11cbf9bdf5c222358ae061120 = L.circleMarker(
+                [-0.05742364638392149, -78.34396831303602],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(map_d533f3c66430b30dfde260f30720d558);
+        
+    
+        var popup_924c6447983a780d9fbc139158d415c3 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_daa7027b480d00fdbe753236bc964710 = $(`<div id="html_daa7027b480d00fdbe753236bc964710" style="width: 100.0%; height: 100.0%;">     <b>Parroquia:</b> Guayllabamba<br>     <b>Grupo:</b> Pocos siniestros, alta letalidad<br>     <b>Siniestros:</b> 80<br>     <b>Fallecidos:</b> 14<br>     <b>Lesionados:</b> 56<br>     <b>Letalidad:</b> 17.50 fallecidos por cada 100 siniestros     </div>`)[0];
+                popup_924c6447983a780d9fbc139158d415c3.setContent(html_daa7027b480d00fdbe753236bc964710);
+            
+        
+
+        circle_marker_552cfab11cbf9bdf5c222358ae061120.bindPopup(popup_924c6447983a780d9fbc139158d415c3)
+        ;
+
+        
+    
+    
+            circle_marker_552cfab11cbf9bdf5c222358ae061120.bindTooltip(
+                `<div>
+                     Guayllabamba
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_e512b18b66783a7e78f19b85f65aa0eb = L.circleMarker(
+                [-0.20820004932249322, -78.47919591869919],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "blue", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 16.27941176470588, "stroke": true, "weight": 3}
+            ).addTo(map_d533f3c66430b30dfde260f30720d558);
+        
+    
+        var popup_a14a29cb4b749d1824d0ee31e1cf8ee7 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_64b05c7cf51810198d26d2203fa8adbf = $(`<div id="html_64b05c7cf51810198d26d2203fa8adbf" style="width: 100.0%; height: 100.0%;">     <b>Parroquia:</b> Itchimbia<br>     <b>Grupo:</b> Riesgo típico<br>     <b>Siniestros:</b> 369<br>     <b>Fallecidos:</b> 28<br>     <b>Lesionados:</b> 172<br>     <b>Letalidad:</b> 7.59 fallecidos por cada 100 siniestros     </div>`)[0];
+                popup_a14a29cb4b749d1824d0ee31e1cf8ee7.setContent(html_64b05c7cf51810198d26d2203fa8adbf);
+            
+        
+
+        circle_marker_e512b18b66783a7e78f19b85f65aa0eb.bindPopup(popup_a14a29cb4b749d1824d0ee31e1cf8ee7)
+        ;
+
+        
+    
+    
+            circle_marker_e512b18b66783a7e78f19b85f65aa0eb.bindTooltip(
+                `<div>
+                     Itchimbia
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_04226360e66e07ef780f772de6cdb135 = L.circleMarker(
+                [-0.1831090988372093, -78.47796592890366],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 26.558823529411764, "stroke": true, "weight": 3}
+            ).addTo(map_d533f3c66430b30dfde260f30720d558);
+        
+    
+        var popup_b37affe3d714284aae8ecdea10b0a402 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_a36a583bbec4709f60365a02a64fee91 = $(`<div id="html_a36a583bbec4709f60365a02a64fee91" style="width: 100.0%; height: 100.0%;">     <b>Parroquia:</b> Iñaquito<br>     <b>Grupo:</b> Muchos siniestros<br>     <b>Siniestros:</b> 602<br>     <b>Fallecidos:</b> 21<br>     <b>Lesionados:</b> 340<br>     <b>Letalidad:</b> 3.49 fallecidos por cada 100 siniestros     </div>`)[0];
+                popup_b37affe3d714284aae8ecdea10b0a402.setContent(html_a36a583bbec4709f60365a02a64fee91);
+            
+        
+
+        circle_marker_04226360e66e07ef780f772de6cdb135.bindPopup(popup_b37affe3d714284aae8ecdea10b0a402)
+        ;
+
+        
+    
+    
+            circle_marker_04226360e66e07ef780f772de6cdb135.bindTooltip(
+                `<div>
+                     Iñaquito
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_807ef9a83321dd5c0c980fdb8e849782 = L.circleMarker(
+                [-0.16044001461187213, -78.47253420958904],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "blue", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 9.661764705882353, "stroke": true, "weight": 3}
+            ).addTo(map_d533f3c66430b30dfde260f30720d558);
+        
+    
+        var popup_277333b7eb4cd1f6a21e2d6a081ff4ee = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_8483c93d88bf2217f81fb6b5ff7671cb = $(`<div id="html_8483c93d88bf2217f81fb6b5ff7671cb" style="width: 100.0%; height: 100.0%;">     <b>Parroquia:</b> Jipijapa<br>     <b>Grupo:</b> Riesgo típico<br>     <b>Siniestros:</b> 219<br>     <b>Fallecidos:</b> 7<br>     <b>Lesionados:</b> 125<br>     <b>Letalidad:</b> 3.20 fallecidos por cada 100 siniestros     </div>`)[0];
+                popup_277333b7eb4cd1f6a21e2d6a081ff4ee.setContent(html_8483c93d88bf2217f81fb6b5ff7671cb);
+            
+        
+
+        circle_marker_807ef9a83321dd5c0c980fdb8e849782.bindPopup(popup_277333b7eb4cd1f6a21e2d6a081ff4ee)
+        ;
+
+        
+    
+    
+            circle_marker_807ef9a83321dd5c0c980fdb8e849782.bindTooltip(
+                `<div>
+                     Jipijapa
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_d0034ead3a24d43f9b6f9e89fabca1e7 = L.circleMarker(
+                [-0.14100704, -78.47845131777778],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "blue", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 11.911764705882351, "stroke": true, "weight": 3}
+            ).addTo(map_d533f3c66430b30dfde260f30720d558);
+        
+    
+        var popup_bcaea5e963a992b4487be5f459ab40e2 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_b8827678cad643456ef769aa83dc5a55 = $(`<div id="html_b8827678cad643456ef769aa83dc5a55" style="width: 100.0%; height: 100.0%;">     <b>Parroquia:</b> Kennedy<br>     <b>Grupo:</b> Riesgo típico<br>     <b>Siniestros:</b> 270<br>     <b>Fallecidos:</b> 18<br>     <b>Lesionados:</b> 160<br>     <b>Letalidad:</b> 6.67 fallecidos por cada 100 siniestros     </div>`)[0];
+                popup_bcaea5e963a992b4487be5f459ab40e2.setContent(html_b8827678cad643456ef769aa83dc5a55);
+            
+        
+
+        circle_marker_d0034ead3a24d43f9b6f9e89fabca1e7.bindPopup(popup_bcaea5e963a992b4487be5f459ab40e2)
+        ;
+
+        
+    
+    
+            circle_marker_d0034ead3a24d43f9b6f9e89fabca1e7.bindTooltip(
+                `<div>
+                     Kennedy
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_e14fff91b73e9091c4569e078c837d53 = L.circleMarker(
+                [-0.2837938505791506, -78.5246493988417],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "blue", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 11.426470588235293, "stroke": true, "weight": 3}
+            ).addTo(map_d533f3c66430b30dfde260f30720d558);
+        
+    
+        var popup_1506ca3852bf6f418dcf00dd5b98f4a7 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_5f1fd6d8c0db392c407c94f8feed2417 = $(`<div id="html_5f1fd6d8c0db392c407c94f8feed2417" style="width: 100.0%; height: 100.0%;">     <b>Parroquia:</b> La Argelia<br>     <b>Grupo:</b> Riesgo típico<br>     <b>Siniestros:</b> 259<br>     <b>Fallecidos:</b> 28<br>     <b>Lesionados:</b> 169<br>     <b>Letalidad:</b> 10.81 fallecidos por cada 100 siniestros     </div>`)[0];
+                popup_1506ca3852bf6f418dcf00dd5b98f4a7.setContent(html_5f1fd6d8c0db392c407c94f8feed2417);
+            
+        
+
+        circle_marker_e14fff91b73e9091c4569e078c837d53.bindPopup(popup_1506ca3852bf6f418dcf00dd5b98f4a7)
+        ;
+
+        
+    
+    
+            circle_marker_e14fff91b73e9091c4569e078c837d53.bindTooltip(
+                `<div>
+                     La Argelia
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_66833bec819041371980fb76a34cec13 = L.circleMarker(
+                [-0.14246244583333334, -78.49424353333333],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "blue", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8.470588235294118, "stroke": true, "weight": 3}
+            ).addTo(map_d533f3c66430b30dfde260f30720d558);
+        
+    
+        var popup_b92cec29a60515c5c1400cb65b88dc62 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_52edf302629c0e160a1d624aefdfa152 = $(`<div id="html_52edf302629c0e160a1d624aefdfa152" style="width: 100.0%; height: 100.0%;">     <b>Parroquia:</b> La Concepcion<br>     <b>Grupo:</b> Riesgo típico<br>     <b>Siniestros:</b> 192<br>     <b>Fallecidos:</b> 8<br>     <b>Lesionados:</b> 135<br>     <b>Letalidad:</b> 4.17 fallecidos por cada 100 siniestros     </div>`)[0];
+                popup_b92cec29a60515c5c1400cb65b88dc62.setContent(html_52edf302629c0e160a1d624aefdfa152);
+            
+        
+
+        circle_marker_66833bec819041371980fb76a34cec13.bindPopup(popup_b92cec29a60515c5c1400cb65b88dc62)
+        ;
+
+        
+    
+    
+            circle_marker_66833bec819041371980fb76a34cec13.bindTooltip(
+                `<div>
+                     La Concepcion
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_a7a0684e5354e98405c7fcd9226a3749 = L.circleMarker(
+                [-0.3029744650684932, -78.56483322260274],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "blue", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6.441176470588235, "stroke": true, "weight": 3}
+            ).addTo(map_d533f3c66430b30dfde260f30720d558);
+        
+    
+        var popup_092c28df0466ccfa1697f5ea27452dac = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_864c02f7cf7bb610c63c28690e4c9123 = $(`<div id="html_864c02f7cf7bb610c63c28690e4c9123" style="width: 100.0%; height: 100.0%;">     <b>Parroquia:</b> La Ecuatoriana<br>     <b>Grupo:</b> Riesgo típico<br>     <b>Siniestros:</b> 146<br>     <b>Fallecidos:</b> 5<br>     <b>Lesionados:</b> 100<br>     <b>Letalidad:</b> 3.42 fallecidos por cada 100 siniestros     </div>`)[0];
+                popup_092c28df0466ccfa1697f5ea27452dac.setContent(html_864c02f7cf7bb610c63c28690e4c9123);
+            
+        
+
+        circle_marker_a7a0684e5354e98405c7fcd9226a3749.bindPopup(popup_092c28df0466ccfa1697f5ea27452dac)
+        ;
+
+        
+    
+    
+            circle_marker_a7a0684e5354e98405c7fcd9226a3749.bindTooltip(
+                `<div>
+                     La Ecuatoriana
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_5d622704e80881c1783be546433febbe = L.circleMarker(
+                [-0.2581497872340425, -78.50991768829788],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "blue", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8.294117647058824, "stroke": true, "weight": 3}
+            ).addTo(map_d533f3c66430b30dfde260f30720d558);
+        
+    
+        var popup_699453d5d9749efbd366657a9bb5f6ad = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_e739f39c3a1cf02cd505a7bdf0945be3 = $(`<div id="html_e739f39c3a1cf02cd505a7bdf0945be3" style="width: 100.0%; height: 100.0%;">     <b>Parroquia:</b> La Ferroviaria<br>     <b>Grupo:</b> Riesgo típico<br>     <b>Siniestros:</b> 188<br>     <b>Fallecidos:</b> 21<br>     <b>Lesionados:</b> 110<br>     <b>Letalidad:</b> 11.17 fallecidos por cada 100 siniestros     </div>`)[0];
+                popup_699453d5d9749efbd366657a9bb5f6ad.setContent(html_e739f39c3a1cf02cd505a7bdf0945be3);
+            
+        
+
+        circle_marker_5d622704e80881c1783be546433febbe.bindPopup(popup_699453d5d9749efbd366657a9bb5f6ad)
+        ;
+
+        
+    
+    
+            circle_marker_5d622704e80881c1783be546433febbe.bindTooltip(
+                `<div>
+                     La Ferroviaria
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_95af7593fb414f033d58aabd3740f9c3 = L.circleMarker(
+                [-0.22710174347826087, -78.52723805217391],
+                {"bubblingMouseEvents": true, "color": "gray", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "gray", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(map_d533f3c66430b30dfde260f30720d558);
+        
+    
+        var popup_10b2fc7c1789253d718e462bb5fb5830 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_3b7cbe9aafaf88c2be3de8c021cd7a7e = $(`<div id="html_3b7cbe9aafaf88c2be3de8c021cd7a7e" style="width: 100.0%; height: 100.0%;">     <b>Parroquia:</b> La Libertad<br>     <b>Grupo:</b> Sin cluster (menos de 30 siniestros)<br>     <b>Siniestros:</b> 23<br>     <b>Fallecidos:</b> 2<br>     <b>Lesionados:</b> 9<br>     <b>Letalidad:</b> 8.70 fallecidos por cada 100 siniestros     </div>`)[0];
+                popup_10b2fc7c1789253d718e462bb5fb5830.setContent(html_3b7cbe9aafaf88c2be3de8c021cd7a7e);
+            
+        
+
+        circle_marker_95af7593fb414f033d58aabd3740f9c3.bindPopup(popup_10b2fc7c1789253d718e462bb5fb5830)
+        ;
+
+        
+    
+    
+            circle_marker_95af7593fb414f033d58aabd3740f9c3.bindTooltip(
+                `<div>
+                     La Libertad
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_155cfd5a84bbd0e3b0871b466c613da3 = L.circleMarker(
+                [-0.24346553278688524, -78.5248897],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "blue", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10.764705882352942, "stroke": true, "weight": 3}
+            ).addTo(map_d533f3c66430b30dfde260f30720d558);
+        
+    
+        var popup_f4ea677404029b9ffbf122dc62d82633 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_e5023010d0520084768ba10e20950b6e = $(`<div id="html_e5023010d0520084768ba10e20950b6e" style="width: 100.0%; height: 100.0%;">     <b>Parroquia:</b> La Magdalena<br>     <b>Grupo:</b> Riesgo típico<br>     <b>Siniestros:</b> 244<br>     <b>Fallecidos:</b> 12<br>     <b>Lesionados:</b> 169<br>     <b>Letalidad:</b> 4.92 fallecidos por cada 100 siniestros     </div>`)[0];
+                popup_f4ea677404029b9ffbf122dc62d82633.setContent(html_e5023010d0520084768ba10e20950b6e);
+            
+        
+
+        circle_marker_155cfd5a84bbd0e3b0871b466c613da3.bindPopup(popup_f4ea677404029b9ffbf122dc62d82633)
+        ;
+
+        
+    
+    
+            circle_marker_155cfd5a84bbd0e3b0871b466c613da3.bindTooltip(
+                `<div>
+                     La Magdalena
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_d3c4ad98ca361921d064cbba4f7622d5 = L.circleMarker(
+                [-0.2642583467741935, -78.55043762473117],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "blue", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8.205882352941178, "stroke": true, "weight": 3}
+            ).addTo(map_d533f3c66430b30dfde260f30720d558);
+        
+    
+        var popup_c46a11460346df7053bc89be277637ed = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_b38bc551bdad5d295e87d13e15fd652b = $(`<div id="html_b38bc551bdad5d295e87d13e15fd652b" style="width: 100.0%; height: 100.0%;">     <b>Parroquia:</b> La Mena<br>     <b>Grupo:</b> Riesgo típico<br>     <b>Siniestros:</b> 186<br>     <b>Fallecidos:</b> 19<br>     <b>Lesionados:</b> 141<br>     <b>Letalidad:</b> 10.22 fallecidos por cada 100 siniestros     </div>`)[0];
+                popup_c46a11460346df7053bc89be277637ed.setContent(html_b38bc551bdad5d295e87d13e15fd652b);
+            
+        
+
+        circle_marker_d3c4ad98ca361921d064cbba4f7622d5.bindPopup(popup_c46a11460346df7053bc89be277637ed)
+        ;
+
+        
+    
+    
+            circle_marker_d3c4ad98ca361921d064cbba4f7622d5.bindTooltip(
+                `<div>
+                     La Mena
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_cca51b9a9f74ef9de4ddc674bcd6542e = L.circleMarker(
+                [-0.3110255333333333, -78.3953650888889],
+                {"bubblingMouseEvents": true, "color": "gray", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "gray", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(map_d533f3c66430b30dfde260f30720d558);
+        
+    
+        var popup_b88cb04efa1fb3937286b823ed34a11b = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_9eaa4650dd158d9b852efbd912ff506d = $(`<div id="html_9eaa4650dd158d9b852efbd912ff506d" style="width: 100.0%; height: 100.0%;">     <b>Parroquia:</b> La Merced<br>     <b>Grupo:</b> Sin cluster (menos de 30 siniestros)<br>     <b>Siniestros:</b> 9<br>     <b>Fallecidos:</b> 2<br>     <b>Lesionados:</b> 7<br>     <b>Letalidad:</b> 22.22 fallecidos por cada 100 siniestros     </div>`)[0];
+                popup_b88cb04efa1fb3937286b823ed34a11b.setContent(html_9eaa4650dd158d9b852efbd912ff506d);
+            
+        
+
+        circle_marker_cca51b9a9f74ef9de4ddc674bcd6542e.bindPopup(popup_b88cb04efa1fb3937286b823ed34a11b)
+        ;
+
+        
+    
+    
+            circle_marker_cca51b9a9f74ef9de4ddc674bcd6542e.bindTooltip(
+                `<div>
+                     La Merced
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_22c2e6589db271da2b3defc573435262 = L.circleMarker(
+                [-0.136415892, -78.44372474400001],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(map_d533f3c66430b30dfde260f30720d558);
+        
+    
+        var popup_76e7e2249be013a06c1bf8f977999013 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_e811be62fca03d43476fee9d2cca96d2 = $(`<div id="html_e811be62fca03d43476fee9d2cca96d2" style="width: 100.0%; height: 100.0%;">     <b>Parroquia:</b> Llano Chico<br>     <b>Grupo:</b> Pocos siniestros, alta letalidad<br>     <b>Siniestros:</b> 50<br>     <b>Fallecidos:</b> 9<br>     <b>Lesionados:</b> 35<br>     <b>Letalidad:</b> 18.00 fallecidos por cada 100 siniestros     </div>`)[0];
+                popup_76e7e2249be013a06c1bf8f977999013.setContent(html_e811be62fca03d43476fee9d2cca96d2);
+            
+        
+
+        circle_marker_22c2e6589db271da2b3defc573435262.bindPopup(popup_76e7e2249be013a06c1bf8f977999013)
+        ;
+
+        
+    
+    
+            circle_marker_22c2e6589db271da2b3defc573435262.bindTooltip(
+                `<div>
+                     Llano Chico
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_7b49f66822dfb335c00a5739cda4c04f = L.circleMarker(
+                [-0.22988873999999998, -78.62000811],
+                {"bubblingMouseEvents": true, "color": "gray", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "gray", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(map_d533f3c66430b30dfde260f30720d558);
+        
+    
+        var popup_ed9f20fc3288e00a4a86a2821b627560 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_a381c73582eb69c52a9e2c42bead016a = $(`<div id="html_a381c73582eb69c52a9e2c42bead016a" style="width: 100.0%; height: 100.0%;">     <b>Parroquia:</b> Lloa<br>     <b>Grupo:</b> Sin cluster (menos de 30 siniestros)<br>     <b>Siniestros:</b> 10<br>     <b>Fallecidos:</b> 3<br>     <b>Lesionados:</b> 16<br>     <b>Letalidad:</b> 30.00 fallecidos por cada 100 siniestros     </div>`)[0];
+                popup_ed9f20fc3288e00a4a86a2821b627560.setContent(html_a381c73582eb69c52a9e2c42bead016a);
+            
+        
+
+        circle_marker_7b49f66822dfb335c00a5739cda4c04f.bindPopup(popup_ed9f20fc3288e00a4a86a2821b627560)
+        ;
+
+        
+    
+    
+            circle_marker_7b49f66822dfb335c00a5739cda4c04f.bindTooltip(
+                `<div>
+                     Lloa
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_4c232acf786cb6fd82cd63a48ed0ba49 = L.circleMarker(
+                [-0.20350945945945947, -78.49092652007722],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "blue", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 11.426470588235293, "stroke": true, "weight": 3}
+            ).addTo(map_d533f3c66430b30dfde260f30720d558);
+        
+    
+        var popup_e48108000155ae04bfbc4436b3b6dda5 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_edd73ce3093dc64ac96ec54cee960899 = $(`<div id="html_edd73ce3093dc64ac96ec54cee960899" style="width: 100.0%; height: 100.0%;">     <b>Parroquia:</b> Mariscal Sucre<br>     <b>Grupo:</b> Riesgo típico<br>     <b>Siniestros:</b> 259<br>     <b>Fallecidos:</b> 15<br>     <b>Lesionados:</b> 149<br>     <b>Letalidad:</b> 5.79 fallecidos por cada 100 siniestros     </div>`)[0];
+                popup_e48108000155ae04bfbc4436b3b6dda5.setContent(html_edd73ce3093dc64ac96ec54cee960899);
+            
+        
+
+        circle_marker_4c232acf786cb6fd82cd63a48ed0ba49.bindPopup(popup_e48108000155ae04bfbc4436b3b6dda5)
+        ;
+
+        
+    
+    
+            circle_marker_4c232acf786cb6fd82cd63a48ed0ba49.bindTooltip(
+                `<div>
+                     Mariscal Sucre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_982b1b97af2c50982063fbe5c8674dd0 = L.circleMarker(
+                [0.133582, -78.669755],
+                {"bubblingMouseEvents": true, "color": "gray", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "gray", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(map_d533f3c66430b30dfde260f30720d558);
+        
+    
+        var popup_66e451d24d32c0192b586532e0176e35 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_b5bbc9f869fb727d39d9ab91db59d049 = $(`<div id="html_b5bbc9f869fb727d39d9ab91db59d049" style="width: 100.0%; height: 100.0%;">     <b>Parroquia:</b> Nanegal<br>     <b>Grupo:</b> Sin cluster (menos de 30 siniestros)<br>     <b>Siniestros:</b> 1<br>     <b>Fallecidos:</b> 0<br>     <b>Lesionados:</b> 1<br>     <b>Letalidad:</b> 0.00 fallecidos por cada 100 siniestros     </div>`)[0];
+                popup_66e451d24d32c0192b586532e0176e35.setContent(html_b5bbc9f869fb727d39d9ab91db59d049);
+            
+        
+
+        circle_marker_982b1b97af2c50982063fbe5c8674dd0.bindPopup(popup_66e451d24d32c0192b586532e0176e35)
+        ;
+
+        
+    
+    
+            circle_marker_982b1b97af2c50982063fbe5c8674dd0.bindTooltip(
+                `<div>
+                     Nanegal
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_9f736f0c493bcb5668bc7d04a6981342 = L.circleMarker(
+                [0.0637233267228049, -78.69226023839923],
+                {"bubblingMouseEvents": true, "color": "gray", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "gray", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(map_d533f3c66430b30dfde260f30720d558);
+        
+    
+        var popup_fb83718be4f488aeb7fbd52da7a8a073 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_2d8ecc482c64686258890b60a606663f = $(`<div id="html_2d8ecc482c64686258890b60a606663f" style="width: 100.0%; height: 100.0%;">     <b>Parroquia:</b> Nanegalito<br>     <b>Grupo:</b> Sin cluster (menos de 30 siniestros)<br>     <b>Siniestros:</b> 17<br>     <b>Fallecidos:</b> 5<br>     <b>Lesionados:</b> 8<br>     <b>Letalidad:</b> 29.41 fallecidos por cada 100 siniestros     </div>`)[0];
+                popup_fb83718be4f488aeb7fbd52da7a8a073.setContent(html_2d8ecc482c64686258890b60a606663f);
+            
+        
+
+        circle_marker_9f736f0c493bcb5668bc7d04a6981342.bindPopup(popup_fb83718be4f488aeb7fbd52da7a8a073)
+        ;
+
+        
+    
+    
+            circle_marker_9f736f0c493bcb5668bc7d04a6981342.bindTooltip(
+                `<div>
+                     Nanegalito
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_92213cbbe0a662765477fdf79401c083 = L.circleMarker(
+                [-0.1770176546511628, -78.44434254302325],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "blue", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(map_d533f3c66430b30dfde260f30720d558);
+        
+    
+        var popup_0eae68e57357adeaa2dd6431fbfdf25c = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_1b7bf41da7e0c28603f57d74b66c1eca = $(`<div id="html_1b7bf41da7e0c28603f57d74b66c1eca" style="width: 100.0%; height: 100.0%;">     <b>Parroquia:</b> Nayon<br>     <b>Grupo:</b> Riesgo típico<br>     <b>Siniestros:</b> 86<br>     <b>Fallecidos:</b> 5<br>     <b>Lesionados:</b> 50<br>     <b>Letalidad:</b> 5.81 fallecidos por cada 100 siniestros     </div>`)[0];
+                popup_0eae68e57357adeaa2dd6431fbfdf25c.setContent(html_1b7bf41da7e0c28603f57d74b66c1eca);
+            
+        
+
+        circle_marker_92213cbbe0a662765477fdf79401c083.bindPopup(popup_0eae68e57357adeaa2dd6431fbfdf25c)
+        ;
+
+        
+    
+    
+            circle_marker_92213cbbe0a662765477fdf79401c083.bindTooltip(
+                `<div>
+                     Nayon
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_009e8dcd0580247dab2bf45e3cfacf83 = L.circleMarker(
+                [-0.03280903406735468, -78.58016420922597],
+                {"bubblingMouseEvents": true, "color": "gray", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "gray", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(map_d533f3c66430b30dfde260f30720d558);
+        
+    
+        var popup_64be0ad10cc9af00262e274417ff81a4 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_0e458125083d60e6f1087a0c08d06523 = $(`<div id="html_0e458125083d60e6f1087a0c08d06523" style="width: 100.0%; height: 100.0%;">     <b>Parroquia:</b> Nono<br>     <b>Grupo:</b> Sin cluster (menos de 30 siniestros)<br>     <b>Siniestros:</b> 5<br>     <b>Fallecidos:</b> 0<br>     <b>Lesionados:</b> 2<br>     <b>Letalidad:</b> 0.00 fallecidos por cada 100 siniestros     </div>`)[0];
+                popup_64be0ad10cc9af00262e274417ff81a4.setContent(html_0e458125083d60e6f1087a0c08d06523);
+            
+        
+
+        circle_marker_009e8dcd0580247dab2bf45e3cfacf83.bindPopup(popup_64be0ad10cc9af00262e274417ff81a4)
+        ;
+
+        
+    
+    
+            circle_marker_009e8dcd0580247dab2bf45e3cfacf83.bindTooltip(
+                `<div>
+                     Nono
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_2d6115120422e7dd46cf296a2ea30580 = L.circleMarker(
+                [0.16619535000000002, -78.801225],
+                {"bubblingMouseEvents": true, "color": "gray", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "gray", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(map_d533f3c66430b30dfde260f30720d558);
+        
+    
+        var popup_7630ad9dddbaa1c28e3a07781cf54bdf = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_95a8983abdbb8c3d7b6a1823c8174ecd = $(`<div id="html_95a8983abdbb8c3d7b6a1823c8174ecd" style="width: 100.0%; height: 100.0%;">     <b>Parroquia:</b> Pacto<br>     <b>Grupo:</b> Sin cluster (menos de 30 siniestros)<br>     <b>Siniestros:</b> 2<br>     <b>Fallecidos:</b> 1<br>     <b>Lesionados:</b> 3<br>     <b>Letalidad:</b> 50.00 fallecidos por cada 100 siniestros     </div>`)[0];
+                popup_7630ad9dddbaa1c28e3a07781cf54bdf.setContent(html_95a8983abdbb8c3d7b6a1823c8174ecd);
+            
+        
+
+        circle_marker_2d6115120422e7dd46cf296a2ea30580.bindPopup(popup_7630ad9dddbaa1c28e3a07781cf54bdf)
+        ;
+
+        
+    
+    
+            circle_marker_2d6115120422e7dd46cf296a2ea30580.bindTooltip(
+                `<div>
+                     Pacto
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_4489697975a9c4720480f436f9aab1c6 = L.circleMarker(
+                [0.1097167, -78.4164345],
+                {"bubblingMouseEvents": true, "color": "gray", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "gray", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(map_d533f3c66430b30dfde260f30720d558);
+        
+    
+        var popup_b73d46560e8b9c8f2f78f56ddf1aa64e = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_7837d9cd1a175817dfc7947999504724 = $(`<div id="html_7837d9cd1a175817dfc7947999504724" style="width: 100.0%; height: 100.0%;">     <b>Parroquia:</b> Perucho<br>     <b>Grupo:</b> Sin cluster (menos de 30 siniestros)<br>     <b>Siniestros:</b> 2<br>     <b>Fallecidos:</b> 0<br>     <b>Lesionados:</b> 4<br>     <b>Letalidad:</b> 0.00 fallecidos por cada 100 siniestros     </div>`)[0];
+                popup_b73d46560e8b9c8f2f78f56ddf1aa64e.setContent(html_7837d9cd1a175817dfc7947999504724);
+            
+        
+
+        circle_marker_4489697975a9c4720480f436f9aab1c6.bindPopup(popup_b73d46560e8b9c8f2f78f56ddf1aa64e)
+        ;
+
+        
+    
+    
+            circle_marker_4489697975a9c4720480f436f9aab1c6.bindTooltip(
+                `<div>
+                     Perucho
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_90de25dc261e6a6ae6d8517c089b965b = L.circleMarker(
+                [-0.24496856135524184, -78.32382146416617],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(map_d533f3c66430b30dfde260f30720d558);
+        
+    
+        var popup_a0cbb10e1870d377a241e14aa3af42db = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_bbb98cf4076a1cf5364c9f11d7ad024b = $(`<div id="html_bbb98cf4076a1cf5364c9f11d7ad024b" style="width: 100.0%; height: 100.0%;">     <b>Parroquia:</b> Pifo<br>     <b>Grupo:</b> Pocos siniestros, alta letalidad<br>     <b>Siniestros:</b> 98<br>     <b>Fallecidos:</b> 44<br>     <b>Lesionados:</b> 72<br>     <b>Letalidad:</b> 44.90 fallecidos por cada 100 siniestros     </div>`)[0];
+                popup_a0cbb10e1870d377a241e14aa3af42db.setContent(html_bbb98cf4076a1cf5364c9f11d7ad024b);
+            
+        
+
+        circle_marker_90de25dc261e6a6ae6d8517c089b965b.bindPopup(popup_a0cbb10e1870d377a241e14aa3af42db)
+        ;
+
+        
+    
+    
+            circle_marker_90de25dc261e6a6ae6d8517c089b965b.bindTooltip(
+                `<div>
+                     Pifo
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_103b5ca6c99bae7a06ad58e598bbce7d = L.circleMarker(
+                [-0.3609435931962401, -78.38081101729387],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(map_d533f3c66430b30dfde260f30720d558);
+        
+    
+        var popup_81a815f05eae17d40ebc8cdd67f1b380 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_868088a90d2edac169133ddfc7210ff7 = $(`<div id="html_868088a90d2edac169133ddfc7210ff7" style="width: 100.0%; height: 100.0%;">     <b>Parroquia:</b> Pintag<br>     <b>Grupo:</b> Pocos siniestros, alta letalidad<br>     <b>Siniestros:</b> 33<br>     <b>Fallecidos:</b> 12<br>     <b>Lesionados:</b> 16<br>     <b>Letalidad:</b> 36.36 fallecidos por cada 100 siniestros     </div>`)[0];
+                popup_81a815f05eae17d40ebc8cdd67f1b380.setContent(html_868088a90d2edac169133ddfc7210ff7);
+            
+        
+
+        circle_marker_103b5ca6c99bae7a06ad58e598bbce7d.bindPopup(popup_81a815f05eae17d40ebc8cdd67f1b380)
+        ;
+
+        
+    
+    
+            circle_marker_103b5ca6c99bae7a06ad58e598bbce7d.bindTooltip(
+                `<div>
+                     Pintag
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_4459eea99c8964d05e3e115f1a1d8564 = L.circleMarker(
+                [-0.05909140311302651, -78.4605255322969],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "blue", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(map_d533f3c66430b30dfde260f30720d558);
+        
+    
+        var popup_545adf91c750f5170ad91cbde039c8c7 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_dcf430e5dbe972d1b20d85a1647dad27 = $(`<div id="html_dcf430e5dbe972d1b20d85a1647dad27" style="width: 100.0%; height: 100.0%;">     <b>Parroquia:</b> Pomasqui<br>     <b>Grupo:</b> Riesgo típico<br>     <b>Siniestros:</b> 79<br>     <b>Fallecidos:</b> 9<br>     <b>Lesionados:</b> 40<br>     <b>Letalidad:</b> 11.39 fallecidos por cada 100 siniestros     </div>`)[0];
+                popup_545adf91c750f5170ad91cbde039c8c7.setContent(html_dcf430e5dbe972d1b20d85a1647dad27);
+            
+        
+
+        circle_marker_4459eea99c8964d05e3e115f1a1d8564.bindPopup(popup_545adf91c750f5170ad91cbde039c8c7)
+        ;
+
+        
+    
+    
+            circle_marker_4459eea99c8964d05e3e115f1a1d8564.bindTooltip(
+                `<div>
+                     Pomasqui
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_d22040551ada57716514fb96b889ec18 = L.circleMarker(
+                [-0.10696756620111732, -78.48355924469274],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "blue", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 15.794117647058824, "stroke": true, "weight": 3}
+            ).addTo(map_d533f3c66430b30dfde260f30720d558);
+        
+    
+        var popup_dfa6ab96898c736aa9c430540389e88b = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_30c7992247f4dee57dcb2fa35745dc6d = $(`<div id="html_30c7992247f4dee57dcb2fa35745dc6d" style="width: 100.0%; height: 100.0%;">     <b>Parroquia:</b> Ponceano<br>     <b>Grupo:</b> Riesgo típico<br>     <b>Siniestros:</b> 358<br>     <b>Fallecidos:</b> 20<br>     <b>Lesionados:</b> 217<br>     <b>Letalidad:</b> 5.59 fallecidos por cada 100 siniestros     </div>`)[0];
+                popup_dfa6ab96898c736aa9c430540389e88b.setContent(html_30c7992247f4dee57dcb2fa35745dc6d);
+            
+        
+
+        circle_marker_d22040551ada57716514fb96b889ec18.bindPopup(popup_dfa6ab96898c736aa9c430540389e88b)
+        ;
+
+        
+    
+    
+            circle_marker_d22040551ada57716514fb96b889ec18.bindTooltip(
+                `<div>
+                     Ponceano
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_bcb780db772aa82dbaed465fc5ee2480 = L.circleMarker(
+                [0.06311178782743009, -78.40583640846819],
+                {"bubblingMouseEvents": true, "color": "gray", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "gray", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(map_d533f3c66430b30dfde260f30720d558);
+        
+    
+        var popup_1d1a989ebd8ae993154ff5b2afd9b8ce = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_bddc67b934ca5b769c63525398fe50dd = $(`<div id="html_bddc67b934ca5b769c63525398fe50dd" style="width: 100.0%; height: 100.0%;">     <b>Parroquia:</b> Puellaro<br>     <b>Grupo:</b> Sin cluster (menos de 30 siniestros)<br>     <b>Siniestros:</b> 7<br>     <b>Fallecidos:</b> 0<br>     <b>Lesionados:</b> 4<br>     <b>Letalidad:</b> 0.00 fallecidos por cada 100 siniestros     </div>`)[0];
+                popup_1d1a989ebd8ae993154ff5b2afd9b8ce.setContent(html_bddc67b934ca5b769c63525398fe50dd);
+            
+        
+
+        circle_marker_bcb780db772aa82dbaed465fc5ee2480.bindPopup(popup_1d1a989ebd8ae993154ff5b2afd9b8ce)
+        ;
+
+        
+    
+    
+            circle_marker_bcb780db772aa82dbaed465fc5ee2480.bindTooltip(
+                `<div>
+                     Puellaro
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_ada73ae04505625e128307c7c15e4311 = L.circleMarker(
+                [-0.19923206811594205, -78.36506741449276],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "blue", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(map_d533f3c66430b30dfde260f30720d558);
+        
+    
+        var popup_576cf8b16ad2f7ba7a78826252733b58 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_65fd9529211c2748221bee36fe432f5f = $(`<div id="html_65fd9529211c2748221bee36fe432f5f" style="width: 100.0%; height: 100.0%;">     <b>Parroquia:</b> Puembo<br>     <b>Grupo:</b> Riesgo típico<br>     <b>Siniestros:</b> 69<br>     <b>Fallecidos:</b> 5<br>     <b>Lesionados:</b> 41<br>     <b>Letalidad:</b> 7.25 fallecidos por cada 100 siniestros     </div>`)[0];
+                popup_576cf8b16ad2f7ba7a78826252733b58.setContent(html_65fd9529211c2748221bee36fe432f5f);
+            
+        
+
+        circle_marker_ada73ae04505625e128307c7c15e4311.bindPopup(popup_576cf8b16ad2f7ba7a78826252733b58)
+        ;
+
+        
+    
+    
+            circle_marker_ada73ae04505625e128307c7c15e4311.bindTooltip(
+                `<div>
+                     Puembo
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_1ab1b122dc32f68d289b9b02d01afbc2 = L.circleMarker(
+                [-0.23803623222477005, -78.48802055191277],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "blue", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 17.955882352941178, "stroke": true, "weight": 3}
+            ).addTo(map_d533f3c66430b30dfde260f30720d558);
+        
+    
+        var popup_9a79b5e5330a98f49e305fcde29e1a23 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_d0a4915c0256c899a5b079f339a3afdc = $(`<div id="html_d0a4915c0256c899a5b079f339a3afdc" style="width: 100.0%; height: 100.0%;">     <b>Parroquia:</b> Puengasi<br>     <b>Grupo:</b> Riesgo típico<br>     <b>Siniestros:</b> 407<br>     <b>Fallecidos:</b> 28<br>     <b>Lesionados:</b> 190<br>     <b>Letalidad:</b> 6.88 fallecidos por cada 100 siniestros     </div>`)[0];
+                popup_9a79b5e5330a98f49e305fcde29e1a23.setContent(html_d0a4915c0256c899a5b079f339a3afdc);
+            
+        
+
+        circle_marker_1ab1b122dc32f68d289b9b02d01afbc2.bindPopup(popup_9a79b5e5330a98f49e305fcde29e1a23)
+        ;
+
+        
+    
+    
+            circle_marker_1ab1b122dc32f68d289b9b02d01afbc2.bindTooltip(
+                `<div>
+                     Puengasi
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_d92c843cfc7fe498039ecf6741a0acec = L.circleMarker(
+                [-0.2977479925, -78.54328144941177],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 30, "stroke": true, "weight": 3}
+            ).addTo(map_d533f3c66430b30dfde260f30720d558);
+        
+    
+        var popup_602fcbe465a34d280ea97a578d8b6972 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_1c9e7bb0b4f3221f22d35dab02ea7a28 = $(`<div id="html_1c9e7bb0b4f3221f22d35dab02ea7a28" style="width: 100.0%; height: 100.0%;">     <b>Parroquia:</b> Quitumbe<br>     <b>Grupo:</b> Muchos siniestros<br>     <b>Siniestros:</b> 680<br>     <b>Fallecidos:</b> 55<br>     <b>Lesionados:</b> 471<br>     <b>Letalidad:</b> 8.09 fallecidos por cada 100 siniestros     </div>`)[0];
+                popup_602fcbe465a34d280ea97a578d8b6972.setContent(html_1c9e7bb0b4f3221f22d35dab02ea7a28);
+            
+        
+
+        circle_marker_d92c843cfc7fe498039ecf6741a0acec.bindPopup(popup_602fcbe465a34d280ea97a578d8b6972)
+        ;
+
+        
+    
+    
+            circle_marker_d92c843cfc7fe498039ecf6741a0acec.bindTooltip(
+                `<div>
+                     Quitumbe
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_6d2ba9cc6e68642711e055a605c093c5 = L.circleMarker(
+                [-0.1710970482071713, -78.49350802828685],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "blue", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 11.073529411764707, "stroke": true, "weight": 3}
+            ).addTo(map_d533f3c66430b30dfde260f30720d558);
+        
+    
+        var popup_ebdc788228bd3b00251ddc52119ff199 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_bbcb34c9a4fe64c801a63e4620e35154 = $(`<div id="html_bbcb34c9a4fe64c801a63e4620e35154" style="width: 100.0%; height: 100.0%;">     <b>Parroquia:</b> Rumipamba<br>     <b>Grupo:</b> Riesgo típico<br>     <b>Siniestros:</b> 251<br>     <b>Fallecidos:</b> 18<br>     <b>Lesionados:</b> 139<br>     <b>Letalidad:</b> 7.17 fallecidos por cada 100 siniestros     </div>`)[0];
+                popup_ebdc788228bd3b00251ddc52119ff199.setContent(html_bbcb34c9a4fe64c801a63e4620e35154);
+            
+        
+
+        circle_marker_6d2ba9cc6e68642711e055a605c093c5.bindPopup(popup_ebdc788228bd3b00251ddc52119ff199)
+        ;
+
+        
+    
+    
+            circle_marker_6d2ba9cc6e68642711e055a605c093c5.bindTooltip(
+                `<div>
+                     Rumipamba
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_df532f1d79bdef1be745fc40d5f96931 = L.circleMarker(
+                [-0.004589043173154494, -78.45101707598091],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "blue", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(map_d533f3c66430b30dfde260f30720d558);
+        
+    
+        var popup_8cd837695f3771a4406bfa4a755cc7ae = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_5c5b8dc59ffe3a100eaa9274b5be03e6 = $(`<div id="html_5c5b8dc59ffe3a100eaa9274b5be03e6" style="width: 100.0%; height: 100.0%;">     <b>Parroquia:</b> San Antonio<br>     <b>Grupo:</b> Riesgo típico<br>     <b>Siniestros:</b> 104<br>     <b>Fallecidos:</b> 11<br>     <b>Lesionados:</b> 64<br>     <b>Letalidad:</b> 10.58 fallecidos por cada 100 siniestros     </div>`)[0];
+                popup_8cd837695f3771a4406bfa4a755cc7ae.setContent(html_5c5b8dc59ffe3a100eaa9274b5be03e6);
+            
+        
+
+        circle_marker_df532f1d79bdef1be745fc40d5f96931.bindPopup(popup_8cd837695f3771a4406bfa4a755cc7ae)
+        ;
+
+        
+    
+    
+            circle_marker_df532f1d79bdef1be745fc40d5f96931.bindTooltip(
+                `<div>
+                     San Antonio
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_a6d35eaa475aab1165f1806d7d175ced = L.circleMarker(
+                [-0.2599793195555556, -78.53493329599999],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "blue", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 9.926470588235293, "stroke": true, "weight": 3}
+            ).addTo(map_d533f3c66430b30dfde260f30720d558);
+        
+    
+        var popup_181943a8a460c745251cb1af39401a71 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_dd02fb609529784ea91cc9b620ff97ad = $(`<div id="html_dd02fb609529784ea91cc9b620ff97ad" style="width: 100.0%; height: 100.0%;">     <b>Parroquia:</b> San Bartolo<br>     <b>Grupo:</b> Riesgo típico<br>     <b>Siniestros:</b> 225<br>     <b>Fallecidos:</b> 6<br>     <b>Lesionados:</b> 139<br>     <b>Letalidad:</b> 2.67 fallecidos por cada 100 siniestros     </div>`)[0];
+                popup_181943a8a460c745251cb1af39401a71.setContent(html_dd02fb609529784ea91cc9b620ff97ad);
+            
+        
+
+        circle_marker_a6d35eaa475aab1165f1806d7d175ced.bindPopup(popup_181943a8a460c745251cb1af39401a71)
+        ;
+
+        
+    
+    
+            circle_marker_a6d35eaa475aab1165f1806d7d175ced.bindTooltip(
+                `<div>
+                     San Bartolo
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_5096ff0a48f079cde025f046088a6674 = L.circleMarker(
+                [-0.13515632272727274, -78.46411510681818],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "blue", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(map_d533f3c66430b30dfde260f30720d558);
+        
+    
+        var popup_714cc3068df1a3d7e7d59c4a88c5bea1 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_954dbb61bb302c7b99b177664c96ec11 = $(`<div id="html_954dbb61bb302c7b99b177664c96ec11" style="width: 100.0%; height: 100.0%;">     <b>Parroquia:</b> San Isidro Del Inca<br>     <b>Grupo:</b> Riesgo típico<br>     <b>Siniestros:</b> 88<br>     <b>Fallecidos:</b> 7<br>     <b>Lesionados:</b> 44<br>     <b>Letalidad:</b> 7.95 fallecidos por cada 100 siniestros     </div>`)[0];
+                popup_714cc3068df1a3d7e7d59c4a88c5bea1.setContent(html_954dbb61bb302c7b99b177664c96ec11);
+            
+        
+
+        circle_marker_5096ff0a48f079cde025f046088a6674.bindPopup(popup_714cc3068df1a3d7e7d59c4a88c5bea1)
+        ;
+
+        
+    
+    
+            circle_marker_5096ff0a48f079cde025f046088a6674.bindTooltip(
+                `<div>
+                     San Isidro Del Inca
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_4691c61fdcbd140b1bd9b65ef8de14ee = L.circleMarker(
+                [0.16044296666666666, -78.415758],
+                {"bubblingMouseEvents": true, "color": "gray", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "gray", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(map_d533f3c66430b30dfde260f30720d558);
+        
+    
+        var popup_1d033beef3a98ed70c8f79e2c7ecc1f7 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_c52002126130b33f3b57f5ce8f3aaf1d = $(`<div id="html_c52002126130b33f3b57f5ce8f3aaf1d" style="width: 100.0%; height: 100.0%;">     <b>Parroquia:</b> San Jose De Minas<br>     <b>Grupo:</b> Sin cluster (menos de 30 siniestros)<br>     <b>Siniestros:</b> 3<br>     <b>Fallecidos:</b> 1<br>     <b>Lesionados:</b> 2<br>     <b>Letalidad:</b> 33.33 fallecidos por cada 100 siniestros     </div>`)[0];
+                popup_1d033beef3a98ed70c8f79e2c7ecc1f7.setContent(html_c52002126130b33f3b57f5ce8f3aaf1d);
+            
+        
+
+        circle_marker_4691c61fdcbd140b1bd9b65ef8de14ee.bindPopup(popup_1d033beef3a98ed70c8f79e2c7ecc1f7)
+        ;
+
+        
+    
+    
+            circle_marker_4691c61fdcbd140b1bd9b65ef8de14ee.bindTooltip(
+                `<div>
+                     San Jose De Minas
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_e3a04af452634a3d93c6c78ddfafad5d = L.circleMarker(
+                [-0.2093415517928287, -78.51001986693227],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "blue", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 11.073529411764707, "stroke": true, "weight": 3}
+            ).addTo(map_d533f3c66430b30dfde260f30720d558);
+        
+    
+        var popup_8ab7d350516abf8fdf99dc7b903cc5dc = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_fbc0320c3035f3b6ca728523ea328216 = $(`<div id="html_fbc0320c3035f3b6ca728523ea328216" style="width: 100.0%; height: 100.0%;">     <b>Parroquia:</b> San Juan<br>     <b>Grupo:</b> Riesgo típico<br>     <b>Siniestros:</b> 251<br>     <b>Fallecidos:</b> 11<br>     <b>Lesionados:</b> 150<br>     <b>Letalidad:</b> 4.38 fallecidos por cada 100 siniestros     </div>`)[0];
+                popup_8ab7d350516abf8fdf99dc7b903cc5dc.setContent(html_fbc0320c3035f3b6ca728523ea328216);
+            
+        
+
+        circle_marker_e3a04af452634a3d93c6c78ddfafad5d.bindPopup(popup_8ab7d350516abf8fdf99dc7b903cc5dc)
+        ;
+
+        
+    
+    
+            circle_marker_e3a04af452634a3d93c6c78ddfafad5d.bindTooltip(
+                `<div>
+                     San Juan
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_787dd04809d5046c3431af427e398df7 = L.circleMarker(
+                [-0.2739031287937743, -78.54146398326849],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "blue", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 11.338235294117647, "stroke": true, "weight": 3}
+            ).addTo(map_d533f3c66430b30dfde260f30720d558);
+        
+    
+        var popup_00ef57d5484490fd65d5e02078d43d8b = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_9f3343e363ce9bfaadc412315e65b754 = $(`<div id="html_9f3343e363ce9bfaadc412315e65b754" style="width: 100.0%; height: 100.0%;">     <b>Parroquia:</b> Solanda<br>     <b>Grupo:</b> Riesgo típico<br>     <b>Siniestros:</b> 257<br>     <b>Fallecidos:</b> 16<br>     <b>Lesionados:</b> 180<br>     <b>Letalidad:</b> 6.23 fallecidos por cada 100 siniestros     </div>`)[0];
+                popup_00ef57d5484490fd65d5e02078d43d8b.setContent(html_9f3343e363ce9bfaadc412315e65b754);
+            
+        
+
+        circle_marker_787dd04809d5046c3431af427e398df7.bindPopup(popup_00ef57d5484490fd65d5e02078d43d8b)
+        ;
+
+        
+    
+    
+            circle_marker_787dd04809d5046c3431af427e398df7.bindTooltip(
+                `<div>
+                     Solanda
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_3db38f4a3565b00e19e623f2360f5da1 = L.circleMarker(
+                [-0.16564668235473617, -78.3469723655103],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(map_d533f3c66430b30dfde260f30720d558);
+        
+    
+        var popup_42e89b66349b3906a4e4ecbffc95343e = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_d700edff4f27adf0bbd3a339573a504d = $(`<div id="html_d700edff4f27adf0bbd3a339573a504d" style="width: 100.0%; height: 100.0%;">     <b>Parroquia:</b> Tababela<br>     <b>Grupo:</b> Pocos siniestros, alta letalidad<br>     <b>Siniestros:</b> 44<br>     <b>Fallecidos:</b> 13<br>     <b>Lesionados:</b> 36<br>     <b>Letalidad:</b> 29.55 fallecidos por cada 100 siniestros     </div>`)[0];
+                popup_42e89b66349b3906a4e4ecbffc95343e.setContent(html_d700edff4f27adf0bbd3a339573a504d);
+            
+        
+
+        circle_marker_3db38f4a3565b00e19e623f2360f5da1.bindPopup(popup_42e89b66349b3906a4e4ecbffc95343e)
+        ;
+
+        
+    
+    
+            circle_marker_3db38f4a3565b00e19e623f2360f5da1.bindTooltip(
+                `<div>
+                     Tababela
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_6d387ce9e8a36afbb7c6df0f325117d1 = L.circleMarker(
+                [-0.21577580769786012, -78.39842548927783],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "blue", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 12.705882352941176, "stroke": true, "weight": 3}
+            ).addTo(map_d533f3c66430b30dfde260f30720d558);
+        
+    
+        var popup_f5017ba1001c2847eaaf5b88ad7d75db = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_5a8d93f45958c2cd9a3c09980961872e = $(`<div id="html_5a8d93f45958c2cd9a3c09980961872e" style="width: 100.0%; height: 100.0%;">     <b>Parroquia:</b> Tumbaco<br>     <b>Grupo:</b> Riesgo típico<br>     <b>Siniestros:</b> 288<br>     <b>Fallecidos:</b> 32<br>     <b>Lesionados:</b> 190<br>     <b>Letalidad:</b> 11.11 fallecidos por cada 100 siniestros     </div>`)[0];
+                popup_f5017ba1001c2847eaaf5b88ad7d75db.setContent(html_5a8d93f45958c2cd9a3c09980961872e);
+            
+        
+
+        circle_marker_6d387ce9e8a36afbb7c6df0f325117d1.bindPopup(popup_f5017ba1001c2847eaaf5b88ad7d75db)
+        ;
+
+        
+    
+    
+            circle_marker_6d387ce9e8a36afbb7c6df0f325117d1.bindTooltip(
+                `<div>
+                     Tumbaco
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_19ccfa58eb7e017f613514061514edca = L.circleMarker(
+                [-0.33287132416356874, -78.53881122825278],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "blue", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 11.867647058823529, "stroke": true, "weight": 3}
+            ).addTo(map_d533f3c66430b30dfde260f30720d558);
+        
+    
+        var popup_de87f3094f69725b88ded7ff35c497f5 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_5cbaa82216a00a78aa202cc0b468a8fe = $(`<div id="html_5cbaa82216a00a78aa202cc0b468a8fe" style="width: 100.0%; height: 100.0%;">     <b>Parroquia:</b> Turubamba<br>     <b>Grupo:</b> Riesgo típico<br>     <b>Siniestros:</b> 269<br>     <b>Fallecidos:</b> 23<br>     <b>Lesionados:</b> 217<br>     <b>Letalidad:</b> 8.55 fallecidos por cada 100 siniestros     </div>`)[0];
+                popup_de87f3094f69725b88ded7ff35c497f5.setContent(html_5cbaa82216a00a78aa202cc0b468a8fe);
+            
+        
+
+        circle_marker_19ccfa58eb7e017f613514061514edca.bindPopup(popup_de87f3094f69725b88ded7ff35c497f5)
+        ;
+
+        
+    
+    
+            circle_marker_19ccfa58eb7e017f613514061514edca.bindTooltip(
+                `<div>
+                     Turubamba
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_f8b83e5723adaa699df38f9f820b60cf = L.circleMarker(
+                [-0.17978496020517387, -78.32911460087082],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(map_d533f3c66430b30dfde260f30720d558);
+        
+    
+        var popup_56866187b486b2643d21df958334a072 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_e62b1746589febcc635f1a81db94397f = $(`<div id="html_e62b1746589febcc635f1a81db94397f" style="width: 100.0%; height: 100.0%;">     <b>Parroquia:</b> Yaruqui<br>     <b>Grupo:</b> Pocos siniestros, alta letalidad<br>     <b>Siniestros:</b> 50<br>     <b>Fallecidos:</b> 9<br>     <b>Lesionados:</b> 34<br>     <b>Letalidad:</b> 18.00 fallecidos por cada 100 siniestros     </div>`)[0];
+                popup_56866187b486b2643d21df958334a072.setContent(html_e62b1746589febcc635f1a81db94397f);
+            
+        
+
+        circle_marker_f8b83e5723adaa699df38f9f820b60cf.bindPopup(popup_56866187b486b2643d21df958334a072)
+        ;
+
+        
+    
+    
+            circle_marker_f8b83e5723adaa699df38f9f820b60cf.bindTooltip(
+                `<div>
+                     Yaruqui
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_10c57b8750588e9b6ddd65639278499c = L.circleMarker(
+                [-0.14585540666666666, -78.44418167333333],
+                {"bubblingMouseEvents": true, "color": "gray", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "gray", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(map_d533f3c66430b30dfde260f30720d558);
+        
+    
+        var popup_7f7e668af54e9f500269accc7a69b5a0 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_fe49cf263267d5a576498ea52efa8f09 = $(`<div id="html_fe49cf263267d5a576498ea52efa8f09" style="width: 100.0%; height: 100.0%;">     <b>Parroquia:</b> Zambiza<br>     <b>Grupo:</b> Sin cluster (menos de 30 siniestros)<br>     <b>Siniestros:</b> 15<br>     <b>Fallecidos:</b> 0<br>     <b>Lesionados:</b> 17<br>     <b>Letalidad:</b> 0.00 fallecidos por cada 100 siniestros     </div>`)[0];
+                popup_7f7e668af54e9f500269accc7a69b5a0.setContent(html_fe49cf263267d5a576498ea52efa8f09);
+            
+        
+
+        circle_marker_10c57b8750588e9b6ddd65639278499c.bindPopup(popup_7f7e668af54e9f500269accc7a69b5a0)
+        ;
+
+        
+    
+    
+            circle_marker_10c57b8750588e9b6ddd65639278499c.bindTooltip(
+                `<div>
+                     Zambiza
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+</script>
+</html>

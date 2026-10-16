@@ -1,0 +1,6 @@
+﻿;siniestros;fallecidos;lesionados;victimas_promedio;letalidad
+siniestros;1.0;0.69;0.97;-0.32;-0.39
+fallecidos;0.69;1.0;0.73;0.24;0.23
+lesionados;0.97;0.73;1.0;-0.18;-0.35
+victimas_promedio;-0.32;0.24;-0.18;1.0;0.79
+letalidad;-0.39;0.23;-0.35;0.79;1.0

@@ -1,0 +1,14 @@
+# Python
+__pycache__/
+*.pyc
+
+# Archivos temporales de Office
+~$*
+
+# Copias de respaldo y material que no es parte del entregable
+respaldo/
+proyecto de siniestros viales/
+*.rar
+
+# Configuración personal del editor
+.vscode/

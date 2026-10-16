@@ -1,0 +1,9 @@
+﻿variable;media_original;desviacion_original;minimo;maximo
+siniestros;214.43;140.84;33.0;680.0
+fallecidos;17.3;11.9;5.0;62.0
+lesionados;132.81;88.88;16.0;471.0
+victimas_promedio;0.73;0.13;0.54;1.18
+letalidad;10.13;8.14;2.67;44.9
+pct_mortales;9.42;6.89;2.67;36.36
+pct_fin_de_semana;35.65;5.52;27.08;51.52
+pct_madrugada;19.95;4.32;9.55;32.43

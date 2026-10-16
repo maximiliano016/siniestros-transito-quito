@@ -1,0 +1,7 @@
+﻿variable_1;variable_2;correlacion;interpretacion
+siniestros;fallecidos;0.69;fuerte y positiva
+siniestros;lesionados;0.97;muy fuerte y positiva
+siniestros;letalidad;-0.39;debil y negativa
+siniestros;victimas_promedio;-0.32;debil y negativa
+lesionados;fallecidos;0.73;fuerte y positiva
+victimas_promedio;letalidad;0.79;fuerte y positiva
